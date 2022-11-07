@@ -1,0 +1,67 @@
+server:
+  port: 7000
+---
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    prefer-ip-address: true
+    hostname: ${COMPUTERNAME:localhost}
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      enable: 'true'
+      uri: http://config-server:8888
+    gateway:
+      routes:
+        - id: account-service
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/account/**
+        - id: credit-service
+          uri: lb://CREDIT-SERVICE
+          predicates:
+            - Path=/credit/**
+        - id: customer-service
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/customer/**
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product/**
+        - id: report-service
+          uri: lb://REPORT-SERVICE
+          predicates:
+            - Path=/report/**
+        - id: card-service
+          uri: lb://CARD-SERVICE
+          predicates:
+            - Path=/card/**
+        - id: wallet-service
+          uri: lb://WALLET-SERVICE
+          predicates:
+            - Path=/wallet/**
+        - id: wallet-transaction-service
+          uri: lb://WALLET-TRANSACTION-SERVICE
+          predicates:
+            - Path=/wallet-transfer/**
+        - id: ad-bootcoin-service
+          uri: lb://AD-BOOTCOIN-SERVICE
+          predicates:
+            - Path=/ad/**
+        - id: master-data-bootcoin-service
+          uri: lb://MASTER-DATA-BOOTCOIN-SERVICE
+          predicates:
+            - Path=/data-bootcoin/**
+        - id: exchange-bootcoin-service
+          uri: lb://EXCHANGE-BOOTCOIN-SERVICE
+          predicates:
+            - Path=/exchange/**
+        - id: bootcoin-service
+          uri: lb://BOOTCOIN-SERVICE
+          predicates:
+            - Path=/bootcoin/**
